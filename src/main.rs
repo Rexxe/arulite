@@ -1,3 +1,5 @@
+extern crate gio;
+extern crate gtk;
 extern crate futures;
 extern crate futures_state_stream;
 extern crate tokio;
@@ -5,6 +7,8 @@ extern crate tokio_core;
 extern crate tiberius;
 mod data;
 use crate::data::model::CR;
+use gio::prelude::*;
+use gtk::prelude::*;
 
 fn main() {
     // let mut core = Core::new().unwrap();

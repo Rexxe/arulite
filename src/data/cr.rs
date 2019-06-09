@@ -1,15 +1,14 @@
 #[path = "model.rs"]
 mod model;
-// use crate::data::model::*;
 
 extern crate futures;
 extern crate futures_state_stream;
 extern crate tokio;
 extern crate tokio_core;
 extern crate tiberius;
-use futures::Future; // , Stream}
+extern crate tokio_current_thread;
+use futures::Future;
 use futures_state_stream::StateStream;
-use tokio::executor::current_thread;
 use tiberius::SqlConnection;
 use crate::data::model::CR;
 
@@ -31,6 +30,6 @@ pub fn get_crs(conn_str : &str) -> Vec<CR> {
                     Ok(())
                 })
         });
-    current_thread::block_on_all(future).unwrap();
+    tokio_current_thread::block_on_all(future).unwrap();
     bugs_shown
 }
