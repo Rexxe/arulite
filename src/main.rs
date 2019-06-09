@@ -9,6 +9,7 @@ mod data;
 use crate::data::model::CR;
 use gio::prelude::*;
 use gtk::prelude::*;
+use gtk::TreeView::*;
 use std::env::args;
 use std::rc::Rc;
 
@@ -59,6 +60,7 @@ fn build_ui(application: &gtk::Application, mut data: &Vec<CR>) {
     let treeview = gtk::TreeView::new_with_model(&*model);
     treeview.set_vexpand(true);
     treeview.set_hexpand(true);
+    treeview.set_resizable(true);
     treeview.set_search_column(Columns::Summary as i32);
 
     sw.add(&treeview);
@@ -80,6 +82,7 @@ fn add_columns(_model: &Rc<gtk::ListStore>, treeview: &gtk::TreeView) {
         column.set_title("Bug ID");
         column.add_attribute(&renderer, "text", Columns::Id as i32);
         column.set_sort_column_id(Columns::Id as i32);
+        column.set_resizable(true);
         treeview.append_column(&column);
     }
 
@@ -91,6 +94,7 @@ fn add_columns(_model: &Rc<gtk::ListStore>, treeview: &gtk::TreeView) {
         column.set_title("CustID");
         column.add_attribute(&renderer, "text", Columns::CustomerID as i32);
         column.set_sort_column_id(Columns::CustomerID as i32);
+        column.set_resizable(true);
         treeview.append_column(&column);
     }
 
@@ -102,23 +106,10 @@ fn add_columns(_model: &Rc<gtk::ListStore>, treeview: &gtk::TreeView) {
         column.set_title("CR Summary");
         column.add_attribute(&renderer, "text", Columns::Summary as i32);
         column.set_sort_column_id(Columns::Summary as i32);
+        column.set_resizable(true);
         treeview.append_column(&column);
     }
 }
-
-// fn spinner_timeout(model: &gtk::ListStore) -> Continue {
-//     let iter = model.get_iter_first().unwrap();
-//     let pulse = model
-//         .get_value(&iter, Columns::Pulse as i32)
-//         .get::<u32>()
-//         .unwrap()
-//         .wrapping_add(1);
-//
-//     model.set_value(&iter, Columns::Pulse as i32 as u32, &pulse.to_value());
-//     model.set_value(&iter, Columns::Active as i32 as u32, &true.to_value());
-//
-//     Continue(true)
-// }
 
 fn create_model(data: &Vec<CR>) -> gtk::ListStore {
     let col_types: [gtk::Type; 3] = [
