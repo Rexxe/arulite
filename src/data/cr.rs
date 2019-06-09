@@ -1,16 +1,15 @@
-#[path = "model.rs"]
-mod model;
-
 extern crate futures;
 extern crate futures_state_stream;
 extern crate tokio;
 extern crate tokio_core;
 extern crate tiberius;
 extern crate tokio_current_thread;
+#[path = "model.rs"]
+mod model;
+use crate::data::model::CR;
 use futures::Future;
 use futures_state_stream::StateStream;
 use tiberius::SqlConnection;
-use crate::data::model::CR;
 
 pub fn get_crs(conn_str : &str) -> Vec<CR> {
     let mut bugs_shown : Vec<CR> = Vec::new();
